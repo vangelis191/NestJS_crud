@@ -9,6 +9,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
   HttpCode,
+  BadRequestException,
 } from '@nestjs/common';
 import { CarEntity } from 'src/models/car.entity';
 import { PeersonEntity } from 'src/models/person.entity';
@@ -51,7 +52,11 @@ export class PersonController {
   }
   @Post()
   @HttpCode(201)
-  createPerson(@Body()person:PeersonEntity){
+  createPerson(@Body()person:PeersonEntity){    
+    if(Object.entries(person).length === 0){
+      throw new BadRequestException('Object is required');
+    }
     this.personService.createPerson(person)
+    
   }
 }
