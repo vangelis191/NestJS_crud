@@ -5,28 +5,28 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { PeersonEntity } from 'src/models/person.entity';
+import { PersonEntity } from 'src/models/person.entity';
 import { PersonRepository } from 'src/repository/person.repository';
 
 @Injectable()
 export class PersonService {
   constructor(private personRepository: PersonRepository) {}
 
-  getPersonCars(): PeersonEntity[] {
-    return this.personRepository.getPersonCars();
+  async getPersonCars(): Promise<PersonEntity[]>{
+    return await this.personRepository.getPersonCars();
   }
 
-  getPersonById(id: number) {
-    const data = this.personRepository.getPersonById(id);
+  async getPersonById(id: number): Promise<PersonEntity[]> {
+    const data = await this.personRepository.getPersonById(id);
     if (data.length <= 0) {
       throw new NotFoundException(`Data with ID ${id} not found`);
     }
     return this.personRepository.getPersonById(id);
   }
 
-  deletePersonById(name: string) {
+   deletePersonById(name: string) {
     try {
-      return this.personRepository.deletePersonById(name);
+        this.personRepository.deletePersonById(name);
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw new NotFoundException(error.message);
@@ -36,7 +36,7 @@ export class PersonService {
     }
   }
 
-  createPerson(person:PeersonEntity){
+  createPerson(person:PersonEntity){
         this.personRepository.createPerson(person)
    }
 }

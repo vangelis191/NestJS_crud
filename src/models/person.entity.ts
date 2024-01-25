@@ -1,7 +1,7 @@
 import { CarEntity } from "./car.entity";
 
 
-export class PeersonEntity {  
+export class PersonEntity {  
     id: number;
     name: string;
     cars:CarEntity[];

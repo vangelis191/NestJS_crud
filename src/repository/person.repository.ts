@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CarEntity } from 'src/models/car.entity';
-import { PeersonEntity } from 'src/models/person.entity';
+import { PersonEntity } from 'src/models/person.entity';
 import { v4 as uuidv4 } from 'uuid';
-const person1 = new PeersonEntity();
+const person1 = new PersonEntity();
 person1.id = 1;
 person1.name = 'Vangelis';
 person1.cars = [
@@ -10,7 +10,7 @@ person1.cars = [
   new CarEntity(uuidv4(), 'Honda', 2000),
 ];
 
-const person2 = new PeersonEntity();
+const person2 = new PersonEntity();
 person2.id = 2;
 person2.name = 'Marios';
 person2.cars = [
@@ -24,7 +24,7 @@ persons.push(person2);
 
 @Injectable()
 export class PersonRepository {
-  getPersonCars(): PeersonEntity[] {
+  getPersonCars(): PersonEntity[] {
     return persons;
   }
 
@@ -39,7 +39,7 @@ export class PersonRepository {
     persons.splice(personToDelete, 1);
   }
 
-  createPerson(person: PeersonEntity) {
+  createPerson(person: PersonEntity) {
     persons.push({
       id: persons.length + 1,
       ...person,

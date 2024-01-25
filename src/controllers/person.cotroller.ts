@@ -12,7 +12,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { CarEntity } from 'src/models/car.entity';
-import { PeersonEntity } from 'src/models/person.entity';
+import { PersonEntity } from 'src/models/person.entity';
 import { PersonService } from 'src/services/person.service';
 
 @Controller('person')
@@ -20,15 +20,15 @@ export class PersonController {
   constructor(private personService: PersonService) {}
 
   @Get()
-  getPersonCars(): PeersonEntity[] {
-    return this.personService.getPersonCars();
+  async getPersonCars(): Promise<PersonEntity[]> {
+    return await this.personService.getPersonCars();
   }
 
   @Delete(':name')
   @HttpCode(204)
   async deleteClient(@Param('name') name: string): Promise<void> {
     try {
-      this.personService.deletePersonById(name);
+      await this.personService.deletePersonById(name);
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw new NotFoundException(error.message);
@@ -39,9 +39,9 @@ export class PersonController {
   }
 
   @Get(':id')
-  getPersonById(@Param('id') id: number) {
+  async getPersonById(@Param('id') id: number) {
     try {
-      return this.personService.getPersonById(id);
+      return await this.personService.getPersonById(id);
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw new NotFoundException(error.message);
@@ -52,7 +52,7 @@ export class PersonController {
   }
   @Post()
   @HttpCode(201)
-  createPerson(@Body()person:PeersonEntity){    
+  createPerson(@Body()person:PersonEntity){    
     if(Object.entries(person).length === 0){
       throw new BadRequestException('Object is required');
     }
