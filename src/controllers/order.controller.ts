@@ -25,6 +25,11 @@ export class OrderController {
     }
   }
 
+  @Get("order-product")
+  async findOrderProduct(): Promise<Order[]> {
+    return await this.orderService.findOrderProduct()
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Order> {
     try {

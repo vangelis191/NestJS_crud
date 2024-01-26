@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from 'src/models/order.model';
+import { Product } from 'src/models/product.model';
 
 
 @Injectable()
 export class OrderService {
-  constructor(@InjectModel('Order') private readonly orderModel: Model<Order>) {}
+  constructor(@InjectModel('Order') private readonly orderModel: Model<Order>,
+  @InjectModel('Product') private readonly productModel: Model<Product>,) {}
 
   async create(orderDto: Order): Promise<Order> {
     try {
@@ -22,6 +24,53 @@ export class OrderService {
       return await this.orderModel.find().exec();
     } catch (error) {
       throw new Error('Failed to fetch orders');
+    }
+  }
+
+
+  async findOrderProduct(): Promise<Order[]> {
+    try {
+      const ordersWithProducts = await this.orderModel.aggregate([
+        {
+          $project: {
+            customer: 1,
+            orderDate: 1,
+            status: 1,
+            shippingAddress: 1,
+            products: {
+              $map: {
+                input: '$products',
+                as: 'productId',
+                in: {
+                  $toObjectId: '$$productId', 
+                },
+              },
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: 'products', 
+            localField: 'products', 
+            foreignField: '_id', 
+            as: 'productDetails', 
+          },
+        },
+        {
+          $addFields: {
+            products: '$productDetails', 
+          },
+        },
+        {
+          $project: {
+            productDetails: 0, 
+          },
+        },
+      ]);
+
+      return ordersWithProducts;
+    } catch (error) {
+      throw new Error('Failed to fetch orders with products');
     }
   }
 
