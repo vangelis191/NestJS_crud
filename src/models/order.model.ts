@@ -3,17 +3,19 @@ import { Product } from './product.model';
 import { Customer } from './customer.model';
 
 export const OrderSchema = new mongoose.Schema({
-    customer: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
+  customer: String,
   orderDate: { type: Date, default: Date.now },
-  products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }],
+  products: [String],
   status: String,
+  shippingAddress:String
 });
 
 export interface Order extends mongoose.Document {
   id: string;
-  customer: Customer;
+  customer: string;
   orderDate: Date;
-  products: Product[];
+  products: string[];
   status: string;
+  shippingAddress:string
  
 }

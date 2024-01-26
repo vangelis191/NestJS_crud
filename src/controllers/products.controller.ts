@@ -18,20 +18,21 @@ import { ProductsService } from 'src/services/products.service';
   export class ProductsController {
     constructor(private readonly productsService: ProductsService) {}
   
-    @Post()
-    async addProduct(
-      @Body('title') title: string,
-      @Body('description') descr: string,
-      @Body('price') price: string,
-    ) {
-      const generatedId = await this.productsService.insertProduct(
-        title,
-        descr,
-        price,
-      );
-      return { id: generatedId };
-    }
+    // @Post()
+    // async addProduct(
+    //   @Body('title') title: string,
+    //   @Body('description') descr: string,
+    //   @Body('price') price: string,
+    // ) {
+    //   const generatedId = await this.productsService.insertProduct(
+    //     title,
+    //     descr,
+    //     price,
+    //   );
+    //   return { id: generatedId };
+    // }
 
+    @Post()
     async create(@Body() product: Product): Promise<Product> {
       try {
         return await this.productsService.create(product);

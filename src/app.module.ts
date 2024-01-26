@@ -13,6 +13,8 @@ import { OrderService } from './services/order.service';
 import { CustomerService } from './services/customer.service';
 import { CustomerSchema } from './models/customer.model';
 import { OrderSchema } from './models/order.model';
+import { OrderController } from './controllers/order.controller';
+import { CustomerController } from './controllers/customer.controller';
 
 
 
@@ -25,7 +27,7 @@ import { OrderSchema } from './models/order.model';
     { name: 'Order', schema: OrderSchema },
   ]),
 ],
-  controllers: [AppController,PersonController,ProductsController],
+  controllers: [AppController,PersonController,ProductsController,OrderController,CustomerController],
   providers: [AppService, PersonService,PersonRepository,ProductsService,OrderService,CustomerService],
 })
 export class AppModule {}
