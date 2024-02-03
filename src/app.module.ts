@@ -7,7 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsService } from './services/products.service';
 import { OrderService } from './services/order.service';
 import { CustomerService } from './services/customer.service';
-import { SharedModule } from './controllers/shared.module';
+import { SharedModule } from './shared/shared.module';
 
 
 
